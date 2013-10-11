@@ -3,21 +3,27 @@
 </head>
 
 <body>
+  {{> backButton }}
   {{> bizcard }}
 </body>
 
 <template name="bizcard">
-  <div class="bizcard">
+  <div class="bizcard animated flipInX">
   	<div class="name">Ian Sibner</div>
   	<div class="blurb">Studying business and computer science at University of Pennsylvania. Formerly a web development intern at <a href="http://versal.com">Versal</a>.</div>
   	<div class="links">
   		<ul>
   			<li><a href="mailto:sibnerian@gmail.com">Email</a></li>
    			<li><a href="http://github.com/isibner">Github</a></li>
-  			<li><a href="/resume.pdf">Résumé</a></li>
-  			<!-- <li class="invader"><a href="#"> </a></li> -->
+  			<li><a href="https://www.dropbox.com/s/y6t9g4uwfv15au0/CS%20resume%208-20-2013.pdf">Résumé</a></li>
+  			<li class="invader"><a href="#"> </a></li>
 
   		</ul>
   	</div>
   </div>
 </template>
+
+<template name="backButton">
+<span class="backButton"> &lt;&lt; Back </span>
+</template>
+
