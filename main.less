@@ -1,4 +1,6 @@
-/* CSS declarations go here */
+@link-color: #0C0091;
+@canvas-width: 900px;
+@canvas-height: 450px;
 html{
 	height: 100%;
 	overflow: hidden;
@@ -10,7 +12,7 @@ body{
 }
 
 a{
-	color: #0C0091;
+	color: @link-color;
 	text-decoration:none;
 	text-shadow: 0px 0px 1px #000000;
 }
@@ -75,11 +77,26 @@ a:hover{
 		cursor: pointer;
 	}
 
+	.gameDiv{
+		top: 5%;
+		width: @canvas-width;
+		height: @canvas-height;
+		margin: auto;
+		position: relative;
+	}
+
+	.game-canvas{
+		width: @canvas-width;
+		height: @canvas-height;
+		border: 1px solid white;
+		background-color: black;
+	}
+
 	.backButton{
 		position: absolute;
 		top: 2px;
 		left:2px;
 		cursor: pointer;
-		color: #0C0091;
+		color: lighten(@link-color, 20%);
 	}
 }
