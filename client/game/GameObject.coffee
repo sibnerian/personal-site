@@ -29,6 +29,15 @@ class GameObject
     clear: ->
         @ctx.clearRect(@topLeftX, @topLeftY, @width, @height)
 
+    intersects: (other)->
+        if not other?
+            return false
+        bb = new BoundingBox(@topLeftX, @topLeftY, @width, @height)
+        bb.contains(other.topLeftX, other.topLeftY) or 
+        bb.contains(other.topLeftX, other.topLeftY + other.height) or
+        bb.contains(other.topleftX + other.width, other.topLeftY) or
+        bb.contains(other.topLeftX + other.width, other.topLeftY + other.height)
+
 
 #Export
 @GameObject = GameObject

@@ -5,8 +5,12 @@
     invaders = new InvaderGroup(ctx, canvas, 8, 4, 10 , 10)
     invaders.setVelocity(10, 0)
     invaders.draw()
-    setInterval ->
-        invaders.clear()
-        invaders.move()
-        invaders.draw()
-    , 200
+    inv = invaders.invaderAtCoords(400, 400)
+    inv2 = new Invader(ctx, canvas, 390, 390)
+    inv2.draw()
+    console.log 2
+    console.log inv?.intersects(inv2)
+    console.log 2
+    console.log inv2?.intersects(inv)
+    ###ctx.fillStyle = '#8ED6FF'
+    ctx.fillRect(180, 180, 5, 5)###
