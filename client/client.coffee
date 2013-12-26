@@ -9,8 +9,8 @@ Template.backButton.rendered = ->
     $(".backButton").click ->
         document.location.reload()
 
-$(document).ready ()->
-    $('.invader').click () ->
+$(document).ready ->
+    $('.invader').click ->
         $('.bizcard').removeClass('flipInX').addClass('hinge')
         Meteor.setTimeout ->
             Session.set "showBackButton", true
