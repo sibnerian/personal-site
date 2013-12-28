@@ -1,5 +1,5 @@
 class InvaderGroup extends GameObject
-    constructor: (ctx, canvas, cols, rows, topLeftX, topLeftY)->
+    constructor: (ctx, canvas, cols, rows, topLeftX, topLeftY, @BULLET_FREQ)->
         @size = cols*rows
         @rowSize = cols
         @data = []
@@ -15,7 +15,7 @@ class InvaderGroup extends GameObject
     draw: ->
         for invader in @data
             invader?.draw()
-
+            
     shift: (dx, dy)->
         @topLeftX += dx
         @topLeftY += dy
@@ -43,19 +43,30 @@ class InvaderGroup extends GameObject
 
     invaderAtCoords: (x, y)->
         xIndex = Math.floor((x-@topLeftX)/(INVADER_WIDTH + @offset))
+        return undefined if xIndex >= @rowSize
         yIndex = Math.floor((y - @topLeftY)/(INVADER_HEIGHT + @offset))
         return @data[xIndex + yIndex * @rowSize]
+
+    removeInvaderAtCoords: (x, y)->
+        xIndex = Math.floor((x-@topLeftX)/(INVADER_WIDTH + @offset))
+        yIndex = Math.floor((y - @topLeftY)/(INVADER_HEIGHT + @offset))
+        delete @data[xIndex + yIndex * @rowSize]
 
     intersects: (other)->
         if not (other? and super other)
             return false
-        invaderAtCoords(other.topLeftX, other.topLeftY)?.intersects(other) or
-        invaderAtCoords(other.topLeftX, other.topLeftY + other.height)?.intersects(other) or
-        invaderAtCoords(other.topLeftX + other.width, other.topLeftY)?.intersects(other) or
-        invaderAtCoords(other.topLeftX + other.width, other.topLeftY + other.height)?.intersects(other)
+        @invaderAtCoords(other.topLeftX, other.topLeftY)?.intersects(other) or
+        @invaderAtCoords(other.topLeftX, other.topLeftY + other.height)?.intersects(other) or
+        @invaderAtCoords(other.topLeftX + other.width, other.topLeftY)?.intersects(other) or
+        @invaderAtCoords(other.topLeftX + other.width, other.topLeftY + other.height)?.intersects(other)
+
+    getBullets: ->
+        freq = @BULLET_FREQ or 0.1212121
+        _.map @data, (invader)->
+            if Math.random() < freq then invader?.getBullet() else undefined
 
     loseGame: ->
-        alert("YOU LOSE GG")
+        console.log "you lose GG"
 
 # Export InvaderGroup
 @InvaderGroup = InvaderGroup

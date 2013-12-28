@@ -3,10 +3,14 @@
 @INVADER_HEIGHT = 40
 SPRITE1_1 = new CroppedImage(spritesheet, 40, 30, 65, 65)
 SPRITE1_2 = new CroppedImage(spritesheet, 142, 30, 65, 65)
+BULLET_SPRITE = new CroppedImage(spritesheet, 7, 460, 22, 35)
 
 class Invader extends GameObject
     constructor: (@ctx, @canvas, @topLeftX, @topLeftY)->
-        super(@ctx, @canvas, SPRITE1_1, @topLeftX, @topLeftY, INVADER_WIDTH, INVADER_HEIGHT)
+        super(@ctx, @canvas, SPRITE1_2, @topLeftX, @topLeftY, INVADER_WIDTH, INVADER_HEIGHT)
+    getBullet: -> 
+        return new Bullet(@ctx, @canvas, BULLET_SPRITE, @topLeftX + INVADER_WIDTH/2, @topLeftY+INVADER_HEIGHT, 0, 10)
+
 
 
 # Export Invader

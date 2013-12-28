@@ -3,7 +3,7 @@ class BoundingBox
         return
 
     contains: (x, y)->
-       (@x + @height >= x >= @x) and (@y + @height >= y >= @y)
+       (@x + @width >= x >= @x) and (@y + @height >= y >= @y)
 
 
 @BoundingBox = BoundingBox

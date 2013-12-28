@@ -20,7 +20,12 @@ $(document).ready ->
             $('body').prepend(div)
             # HTML5 canvas needs width and height attributes, not just styles
             canvas.attr {width: canvas.width(), height: canvas.height()}
-            newGame(canvas[0], div.width(), div.height())
+            keydown = (func)->
+                $(window).keydown (e)-> func(e)
+            keyup = (func)->
+                $(window).keyup (e)-> func(e)
+            game = new Game(canvas[0], keydown, keyup)
+            game.start()
         , 1800
 
 

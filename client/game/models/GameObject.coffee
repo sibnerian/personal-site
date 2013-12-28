@@ -17,11 +17,8 @@ class GameObject
         @setPosition(newX, newY)
 
     shift: (dx, dy)->
-        oldVelX = @velX
-        oldVelY = @velY
-        @setVelocity(dx, dy)
-        @move()
-        @setVelocity(oldVelX, oldVelY)
+        @topLeftX += dx
+        @topLeftY += dy
 
     draw: ->
         @image.draw(@ctx, @topLeftX, @topLeftY, @width, @height)
@@ -32,7 +29,7 @@ class GameObject
     boundingBox: ->
         return new BoundingBox(@topLeftX, @topLeftY, @width, @height)
 
-    intersects: (other)->
+    bbIntersects: (other)->
         if not other?
             return false
         bb = @boundingBox()
@@ -40,6 +37,16 @@ class GameObject
         bb.contains(other.topLeftX, other.topLeftY + other.height) or
         bb.contains(other.topleftX + other.width, other.topLeftY) or
         bb.contains(other.topLeftX + other.width, other.topLeftY + other.height)
+
+
+    intersects: (other)->
+        return @bbIntersects(other) or other.bbIntersects(@)
+
+    isOnScreen: ->
+        @topLeftX + @width >= 0 and
+        @topLeftX <= @canvas.width and
+        @topLeftY + @height >= 0 and
+        @topLeftY <= @canvas.height
 
 
 #Export
