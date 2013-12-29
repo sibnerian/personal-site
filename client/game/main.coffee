@@ -16,11 +16,11 @@ class Game
         @ticks = 0
         @lives = 3
         @score = 0
-        @invaders = new InvaderGroup(@ctx, @canvas, 8, 4, 10 , 10)
+        @invaders = new InvaderGroup(@ctx, @canvas, 8, 4, 25, 25)
         @invaders.setVelocity(10, 0)
         @bullets = new BulletGroup(@ctx, @canvas)
         @bullets.addAll @invaders.getBullets()
-        player = new Player(@ctx, @canvas, @canvas.width/2, @canvas.height-30)
+        player = new Player(@ctx, @canvas, @canvas.width/2, @canvas.height-50)
         @player = player
         @playerBullets = new BulletGroup(@ctx, @canvas)
         @playerBullets.add player.getBullet()
@@ -39,6 +39,8 @@ class Game
             keysDown.remove e.which
 
     tick: ->
+        return if @paused
+        @drawHud()
         @invaders.clear()
         @bullets.clear()
         @player.clear()
@@ -56,6 +58,7 @@ class Game
             if @invaders.intersects(bullet) and @invaders.invaderAtCoords(bullet.topLeftX + bullet.width/2, bullet.topLeftY)?
                 @playerBullets.remove(bullet)
                 @invaders.removeInvaderAtCoords(bullet.topLeftX + bullet.width/2, bullet.topLeftY)
+                @score += 10
         # player movement logic
         switch
             when @keysDown.contains(37) and not @keysDown.contains(39)
@@ -65,6 +68,19 @@ class Game
             else
                 @player.setVelocity(0, 0)
         # player shooting logic
-        @playerBullets.add @player.getBullet() if @keysDown.contains(32) and @ticks % 5 is 0
+        @playerBullets.add @player.getBullet() if @keysDown.contains(32) and @ticks % 10 is 0
+
+    drawHud: ->
+        @drawScore()
+        @drawLives()
+
+    drawScore: ->
+        @ctx.clearRect(@canvas.width - 58, 0, 58, 22)
+        @ctx.textAlign = 'right'
+        @ctx.font = '16px "Press Start 2P"'
+        @ctx.fillStyle = 'rgb(200, 0, 0)'
+        @ctx.fillText "#{@score}", @canvas.width - 5, 20, 48
+
+    drawLives: ->
 
 @Game = Game
