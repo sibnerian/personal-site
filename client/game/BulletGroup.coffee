@@ -23,15 +23,19 @@ class BulletGroup
         for bullet in @toArray()
             @data.remove(bullet) if not bullet.isOnScreen()
 
+    size: ->
+        @data.size()
+
     remove: (bullet)->
         bullet.clear()
         @data.remove bullet
 
+    removeAll: ->
+        for bullet in @toArray()
+            @remove bullet
+
     toArray: ->
         @data.toArray()
-
-    loseGame: ->
-        alert("YOU LOSE GG")
 
 # Export BulletGroup
 @BulletGroup = BulletGroup

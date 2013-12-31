@@ -1,19 +1,18 @@
 class InvaderGroup extends GameObject
     constructor: (ctx, canvas, cols, rows, topLeftX, topLeftY, @BULLET_FREQ)->
-        @size = cols*rows
+        @_size = cols*rows
         @rowSize = cols
         @data = []
         @offset = 8
-        for i in [0...@size]
+        for i in [0...@_size]
             x = topLeftX + (i % @rowSize) * (INVADER_WIDTH + @offset)
             y = topLeftY + Math.floor(i / @rowSize) * (INVADER_HEIGHT + @offset)
             @data[i] = new Invader(ctx, canvas, x, y)
-        maxX = @data[@size-1].topLeftX + INVADER_WIDTH
-        maxY = @data[@size-1].topLeftY + INVADER_HEIGHT
+        maxX = @data[@_size-1].topLeftX + INVADER_WIDTH
+        maxY = @data[@_size-1].topLeftY + INVADER_HEIGHT
         super(ctx, canvas, null, topLeftX, topLeftY, maxX - topLeftX, maxY - topLeftY)
         @originalTopLeftX = topLeftX
         @originalTopLeftY = topLeftY
-        console.log {topLeftX: @topLeftX, topLeftY: @topLeftY, width: @width, height: @height}
 
     updateWidthHeight: ->
         return if @data.length is 0
@@ -26,7 +25,6 @@ class InvaderGroup extends GameObject
             maxY = inv.topLeftY + inv.height if (not maxY?) or inv.topLeftY + inv.height > maxY
         @width = maxX - @topLeftX
         @height = maxY - @topLeftY
-        console.log {topLeftX: @topLeftX, topLeftY: @topLeftY, width: @width, height: @height}
 
     draw: ->
         for invader in @data
@@ -46,7 +44,7 @@ class InvaderGroup extends GameObject
             @shift(0, INVADER_HEIGHT)
             @setVelocity(-@velX, @velY)
         else if maxY + @velY > @canvas.height
-            @loseGame()
+            @reached_bottom = true
         else 
             super()
             @originalTopLeftX += @velX
@@ -68,9 +66,11 @@ class InvaderGroup extends GameObject
     removeInvaderAtCoords: (x, y)->
         xIndex = Math.floor((x-@originalTopLeftX)/(INVADER_WIDTH + @offset))
         yIndex = Math.floor((y - @originalTopLeftY)/(INVADER_HEIGHT + @offset))
-        @data[xIndex + yIndex * @rowSize]?.clear() # clear removed invader off the screen
-        delete @data[xIndex + yIndex * @rowSize]
-        @updateWidthHeight()
+        if @data[xIndex + yIndex * @rowSize]?
+            @data[xIndex + yIndex * @rowSize].clear() # clear removed invader off the screen
+            delete @data[xIndex + yIndex * @rowSize]
+            @_size--
+            @updateWidthHeight()
 
     intersects: (other)->
         if not (other? and super other)
@@ -80,13 +80,21 @@ class InvaderGroup extends GameObject
         @invaderAtCoords(other.topLeftX + other.width, other.topLeftY)?.intersects(other) or
         @invaderAtCoords(other.topLeftX + other.width, other.topLeftY + other.height)?.intersects(other)
 
+    updateExploded: (num)->
+        for invader in @data
+            if invader?.exploded
+                if invader.ticks_since_explode > num
+                    @removeInvaderAtCoords(invader.topLeftX, invader.topLeftY) 
+                else
+                    invader.ticks_since_explode++
+
     getBullets: ->
-        freq = @BULLET_FREQ or 0.1212121
+        freq = @BULLET_FREQ or 0.1
         _.map @data, (invader)->
             if Math.random() < freq then invader?.getBullet() else undefined
 
-    loseGame: ->
-        console.log "you lose GG"
+    size: ->
+        @_size
 
 # Export InvaderGroup
 @InvaderGroup = InvaderGroup

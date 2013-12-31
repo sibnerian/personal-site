@@ -3,9 +3,10 @@
 #SPRITE = new CroppedImage(spritesheet, ?, ?, ?, ?)
 BULLET_SPRITE = new CroppedImage(spritesheet, 7, 450, 22, 35)
 
-class Player extends GameObject
+class Player extends Ship
     constructor: (@ctx, @canvas, @topLeftX, @topLeftY)->
         super(@ctx, @canvas, BULLET_SPRITE, @topLeftX, @topLeftY, PLAYER_WIDTH, PLAYER_HEIGHT) #CHANGE ME
+        @willFire = false
     getBullet: -> 
         bullet =  new Bullet(@ctx, @canvas, BULLET_SPRITE, @topLeftX + @width/2, @topLeftY+@height, 0, -10)
         bullet.shift(-bullet.width/2, -bullet.height)
