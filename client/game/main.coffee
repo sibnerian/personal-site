@@ -45,8 +45,8 @@ class Game
     nextLevel: ->
         if @levels_cleared? then @levels_cleared++ else @levels_cleared = 0
         invaderCoord = Math.min(150, 25 + @levels_cleared * 25)
-        @invaders = new InvaderGroup(@ctx, @canvas, 8, 4, invaderCoord, invaderCoord, @bullet_freq)
-        @invaders.setVelocity(10 + 2*@levels_cleared, 0)
+        @invaders = new InvaderGroup(@ctx, @canvas, 11, 6, invaderCoord, invaderCoord, @bullet_freq)
+        @invaders.setVelocity(20 + 4*@levels_cleared, 0)
         @bullets?.clear()
         @player_bullets?.clear()
         @bullets = new BulletGroup(@ctx, @canvas)
@@ -62,7 +62,7 @@ class Game
         @bullets.clear()
         @player.clear()
         @player_bullets.clear()
-        if @ticks % 15 is 0
+        if @ticks % 30 is 0
             @invaders.move()
             @bullets.addAll @invaders.getBullets()
         @bullets.move()

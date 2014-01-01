@@ -1,6 +1,5 @@
 @PLAYER_WIDTH = 50
 @PLAYER_HEIGHT = 20
-#SPRITE = new CroppedImage(spritesheet, ?, ?, ?, ?)
 BULLET_SPRITE = new CroppedImage(spritesheet, 7, 450, 22, 35)
 
 class Player extends Ship

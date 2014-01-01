@@ -1,5 +1,6 @@
 class Ship extends GameObject
     explode: ->
-        console.log 'exploding'
+        @exploded = true
+        @ticks_since_explode = 0
 
 @Ship = Ship

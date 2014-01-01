@@ -7,7 +7,14 @@ class InvaderGroup extends GameObject
         for i in [0...@_size]
             x = topLeftX + (i % @rowSize) * (INVADER_WIDTH + @offset)
             y = topLeftY + Math.floor(i / @rowSize) * (INVADER_HEIGHT + @offset)
-            @data[i] = new Invader(ctx, canvas, x, y)
+            invaderType = switch
+                when i < 2*@rowSize then "squid"
+                when i < 4*@rowSize then "crab"
+                else "jelly"
+            @data[i] = new Invader(ctx, canvas, x, y, invaderType)
+            console.log (INVADER_WIDTH - @data[i].width)/2
+            @data[i].shift((INVADER_WIDTH - @data[i].width)/2, 0)
+            
         maxX = @data[@_size-1].topLeftX + INVADER_WIDTH
         maxY = @data[@_size-1].topLeftY + INVADER_HEIGHT
         super(ctx, canvas, null, topLeftX, topLeftY, maxX - topLeftX, maxY - topLeftY)
@@ -19,10 +26,10 @@ class InvaderGroup extends GameObject
         @topLeftX = @topLeftY = maxX = maxY = undefined
         for inv in @data
             continue if not inv?
-            @topLeftX = inv.topLeftX if (not @topLeftX?) or inv.topLeftX < @topLeftX
-            @topLeftY = inv.topLeftY if (not @topLeftY?) or inv.topLeftY < @topLeftY
-            maxX = inv.topLeftX + inv.width if (not maxX?) or inv.topLeftX + inv.width > maxX
-            maxY = inv.topLeftY + inv.height if (not maxY?) or inv.topLeftY + inv.height > maxY
+            @topLeftX = Math.floor(inv.topLeftX) if (not @topLeftX?) or inv.topLeftX < @topLeftX
+            @topLeftY = Math.floor(inv.topLeftY) if (not @topLeftY?) or inv.topLeftY < @topLeftY
+            maxX = Math.ceil(inv.topLeftX) + inv.width if (not maxX?) or inv.topLeftX + inv.width > maxX
+            maxY = Math.ceil(inv.topLeftY + inv.height) if (not maxY?) or inv.topLeftY + inv.height > maxY
         @width = maxX - @topLeftX
         @height = maxY - @topLeftY
 
