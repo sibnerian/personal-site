@@ -12,7 +12,6 @@ class InvaderGroup extends GameObject
                 when i < 4*@rowSize then "crab"
                 else "jelly"
             @data[i] = new Invader(ctx, canvas, x, y, invaderType)
-            console.log (INVADER_WIDTH - @data[i].width)/2
             @data[i].shift((INVADER_WIDTH - @data[i].width)/2, 0)
             
         maxX = @data[@_size-1].topLeftX + INVADER_WIDTH

@@ -2,6 +2,7 @@ class Game
     constructor: (@canvas, @keydown, @keyup) ->
         @ctx = @canvas.getContext('2d')
         @bullet_freq = 0.02
+        @UFO_freq = 0.001
 
     start: ->
         @reset()
@@ -72,18 +73,38 @@ class Game
         @invaders.draw()
         @player.draw()
         @player_bullets.draw()
+        #UFO logic
+        if @UFO?
+            @UFO.clear()
+            @UFO.move() if not @UFO.exploded
+            @UFO.draw()
+            @UFO.ticks_since_explode++ if @UFO.exploded
+            if not @UFO.isOnScreen()
+                @UFO.clear()
+                @UFO = null
+        else
+            if @invaders.topLeftY > 50 and Math.random() < @UFO_freq
+                @UFO = new UFO(@ctx, @canvas, 0, 25)
+                @UFO.setVelocity(3, 0)
 
-        #get rid of exploded invaders
+        #get rid of exploded invaders/UFOs
         @invaders.updateExploded(10)
+        if @UFO?.exploded and @UFO.ticks_since_explode > 50
+            @UFO.clear()
+            @UFO = null
 
-        # invader destruction logic
+        # invader/UFO destruction logic
         for bullet in @player_bullets.toArray()
             if @invaders.intersects(bullet)
                 invader = @invaders.invaderAtCoords(bullet.topLeftX + bullet.width/2, bullet.topLeftY)
                 if invader? and not invader.exploded
                     @player_bullets.remove(bullet)
                     invader.explode()
-                    @score += 10
+                    @score += invader.pointValue
+            if @UFO?.intersects(bullet) and not @UFO.exploded
+                @player_bullets.remove(bullet)
+                @UFO.explode()
+                @score += @UFO.pointValue
         # player destruction logic
         for bullet in @bullets.toArray()
             if @player.intersects(bullet)

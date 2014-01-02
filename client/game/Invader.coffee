@@ -1,4 +1,4 @@
-# Invaders fit in an area 45x30
+# Invaders fit in an area 42x28
 @INVADER_WIDTH = 42
 @INVADER_HEIGHT = 28
 
@@ -24,14 +24,17 @@ class Invader extends Ship
             when "squid"
                 @image1 = SPRITE_SQUID_1
                 @image2 = SPRITE_SQUID_2
+                @pointValue = 40
                 super(@ctx, @canvas, @image1, @topLeftX, @topLeftY, squidPixelWidth/jellyPixelWidth*INVADER_WIDTH, INVADER_HEIGHT)
             when "crab"
                 @image1 = SPRITE_CRAB_1
                 @image2 = SPRITE_CRAB_2
+                @pointValue = 20
                 super(@ctx, @canvas, @image1, @topLeftX, @topLeftY, crabPixelWidth/jellyPixelWidth*INVADER_WIDTH, INVADER_HEIGHT)
             when "jelly"
                 @image1 = SPRITE_JELLY_1
                 @image2 = SPRITE_JELLY_2
+                @pointValue = 10
                 super(@ctx, @canvas, @image1, @topLeftX, @topLeftY, INVADER_WIDTH, INVADER_HEIGHT)
         
     getBullet: -> 
@@ -44,10 +47,6 @@ class Invader extends Ship
     move: ->
         super()
         @swapSprite() if not @exploded
-
-
-
-
 
 # Export Invader
 @Invader = Invader
