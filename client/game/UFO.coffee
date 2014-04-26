@@ -1,6 +1,5 @@
 UFO_SPRITE = new CroppedImage(spritesheet, 31, 338, 192, 84)
 
-
 class UFO extends Ship
     constructor: (@ctx, @canvas, @topLeftX, @topLeftY)->
         @pointValue = 50 * Math.ceil(Math.random() * 3)
@@ -10,7 +9,7 @@ class UFO extends Ship
     draw:->
         if @exploded
             @ctx.textAlign = 'center'
-            @ctx.font = '12px "Press Start 2P"'
+            @ctx.font = '14px "Press Start 2P"'
             @ctx.fillStyle = 'rgb(255, 255, 255)'
             @ctx.fillText "#{@pointValue}", @topLeftX + @width/2, @topLeftY+@height, 200
         else
