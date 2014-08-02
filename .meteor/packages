@@ -8,3 +8,5 @@ preserve-inputs
 coffeescript
 jquery
 less
+buzz.js
+underscore

@@ -1,5 +1,9 @@
+soundFiles = ['/sounds/tone_1.wav', '/sounds/tone_2.wav', '/sounds/tone_3.wav', '/sounds/tone_4.wav']
+sounds = _.map soundFiles, (soundFile) ->
+    new buzz.sound soundFile
+
 class InvaderGroup extends GameObject
-    constructor: (ctx, canvas, cols, rows, topLeftX, topLeftY, @BULLET_FREQ)->
+    constructor: (ctx, canvas, cols, rows, topLeftX, topLeftY, @BULLET_FREQ) ->
         @_size = cols*rows
         @rowSize = cols
         @data = []
@@ -13,12 +17,13 @@ class InvaderGroup extends GameObject
                 else "jelly"
             @data[i] = new Invader(ctx, canvas, x, y, invaderType)
             @data[i].shift((INVADER_WIDTH - @data[i].width)/2, 0)
-            
+
         maxX = @data[@_size-1].topLeftX + INVADER_WIDTH
         maxY = @data[@_size-1].topLeftY + INVADER_HEIGHT
         super(ctx, canvas, null, topLeftX, topLeftY, maxX - topLeftX, maxY - topLeftY)
         @originalTopLeftX = topLeftX
         @originalTopLeftY = topLeftY
+        @soundIndex = 0
 
     updateWidthHeight: ->
         return if @data.length is 0
@@ -35,7 +40,7 @@ class InvaderGroup extends GameObject
     draw: ->
         for invader in @data
             invader?.draw()
-            
+
     shift: (dx, dy)->
         super(dx, dy)
         @originalTopLeftX += dx
@@ -51,12 +56,14 @@ class InvaderGroup extends GameObject
             @setVelocity(-@velX, @velY)
         else if maxY + @velY > @canvas.height
             @reached_bottom = true
-        else 
+        else
             super()
             @originalTopLeftX += @velX
             @originalTopLeftY += @velY
             for invader in @data
                 invader?.move()
+        sounds[@soundIndex].play()
+        @soundIndex = (@soundIndex + 1) % sounds.length
 
     setVelocity: (vx, vy)->
         for invader in @data
