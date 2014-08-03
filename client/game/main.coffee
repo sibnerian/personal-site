@@ -16,12 +16,12 @@ class Game
         @lives = 3
         @score = 0
         @nextLevel()
-        @player = new Player(@ctx, @canvas, @canvas.width/2, @canvas.height-50)
-        @keys_down = new Set (val)-> val #values will be numbers, and can be own hash function
+        @player = new Player(@ctx, @canvas, @canvas.width / 2, @canvas.height - 50)
+        @keys_down = new Set (val) -> val #values will be numbers, and can be own hash function
         self = @
-        @keydown (e)->
+        @keydown (e) ->
             switch e.which
-                when 32 
+                when 32
                     e.preventDefault()
                     self.player.willFire = true
                 when 37
@@ -33,7 +33,7 @@ class Game
                 when 13 # ENTER
                     self.reset() if not self.started
             self.keys_down.add e.which
-        @keyup (e)->
+        @keyup (e) ->
             self.keys_down.remove e.which
         @started = true
         @paused = false
@@ -47,7 +47,7 @@ class Game
         if @levels_cleared? then @levels_cleared++ else @levels_cleared = 0
         invaderCoord = Math.min(150, 25 + @levels_cleared * 25)
         @invaders = new InvaderGroup(@ctx, @canvas, 11, 6, invaderCoord, invaderCoord, @bullet_freq)
-        @invaders.setVelocity(20 + 4*@levels_cleared, 0)
+        @invaders.setVelocity(20 + 4 * @levels_cleared, 0)
         @bullets?.clear()
         @player_bullets?.clear()
         @bullets = new BulletGroup(@ctx, @canvas)
@@ -96,7 +96,7 @@ class Game
         # invader/UFO destruction logic
         for bullet in @player_bullets.toArray()
             if @invaders.intersects(bullet)
-                invader = @invaders.invaderAtCoords(bullet.topLeftX + bullet.width/2, bullet.topLeftY)
+                invader = @invaders.invaderAtCoords(bullet.topLeftX + bullet.width / 2, bullet.topLeftY)
                 if invader? and not invader.exploded
                     @player_bullets.remove(bullet)
                     invader.explode()
@@ -138,18 +138,18 @@ class Game
         @ctx.fillText "#{@score}", @canvas.width - 5, 20, 48
 
     drawLives: ->
-        @ctx.clearRect(@canvas.width-80, @canvas.height-50, 80, 50)
+        @ctx.clearRect(@canvas.width - 80, @canvas.height - 50, 80, 50)
         @ctx.textAlign = 'right'
         @ctx.font = '16px "Press Start 2P"'
         @ctx.fillStyle = 'rgb(200, 0, 0)'
-        @ctx.fillText "Lives:#{@lives}", @canvas.width-5, @canvas.height-5, 80
+        @ctx.fillText "Lives:#{@lives}", @canvas.width - 5, @canvas.height - 5, 80
 
     pause: ->
         @paused = true
         @ctx.textAlign = 'center'
         @ctx.font = '20px "Press Start 2P"'
         @ctx.fillStyle = 'rgb(255, 255, 255)'
-        @ctx.fillText "Paused", @canvas.width/2, @canvas.height/2, 200
+        @ctx.fillText "Paused", @canvas.width / 2, @canvas.height / 2, 200
 
     resume: ->
         @paused = false
@@ -167,15 +167,10 @@ class Game
         @ctx.textAlign = 'center'
         @ctx.font = '32px "Press Start 2P"'
         @ctx.fillStyle = 'rgb(255, 255, 255)'
-        @ctx.fillText "Game Over", @canvas.width/2, @canvas.height/2-40, 250
+        @ctx.fillText "Game Over", @canvas.width / 2, @canvas.height / 2 - 40, 250
         @ctx.font = '20px "Press Start 2P"'
-        @ctx.fillText "Final Score: #{@score}", @canvas.width/2, @canvas.height/2-5, 200
+        @ctx.fillText "Final Score: #{@score}", @canvas.width / 2, @canvas.height / 2 - 5, 200
         @ctx.font = '24px "Press Start 2P"'
-        @ctx.fillText "Press enter to play again.", @canvas.width/2, @canvas.height/2+25, 300
-
-
-
-
-
+        @ctx.fillText "Press enter to play again.", @canvas.width / 2, @canvas.height / 2 + 25, 300
 
 @Game = Game

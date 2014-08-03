@@ -3,11 +3,11 @@ class GameObject
         @velX = 0
         @velY = 0
 
-    setPosition: (x, y)->
+    setPosition: (x, y) ->
         @topLeftX = x
         @topLeftY = y
 
-    setVelocity: (vx, vy)->
+    setVelocity: (vx, vy) ->
         @velX = vx
         @velY = vy
 
@@ -16,7 +16,7 @@ class GameObject
         newY = Math.max(0, Math.min(@canvas.height - @height, @topLeftY + @velY))
         @setPosition(newX, newY)
 
-    shift: (dx, dy)->
+    shift: (dx, dy) ->
         @topLeftX += dx
         @topLeftY += dy
 
@@ -29,17 +29,17 @@ class GameObject
     boundingBox: ->
         return new BoundingBox(@topLeftX, @topLeftY, @width, @height)
 
-    bbIntersects: (other)->
+    bbIntersects: (other) ->
         if not other?
             return false
         bb = @boundingBox()
-        bb.contains(other.topLeftX, other.topLeftY) or 
+        bb.contains(other.topLeftX, other.topLeftY) or
         bb.contains(other.topLeftX, other.topLeftY + other.height) or
         bb.contains(other.topleftX + other.width, other.topLeftY) or
         bb.contains(other.topLeftX + other.width, other.topLeftY + other.height)
 
 
-    intersects: (other)->
+    intersects: (other) ->
         return @bbIntersects(other) or other.bbIntersects(@)
 
     isOnScreen: ->
@@ -51,7 +51,3 @@ class GameObject
 
 #Export
 @GameObject = GameObject
-
-
-
-

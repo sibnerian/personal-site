@@ -4,7 +4,7 @@ sounds = _.map soundFiles, (soundFile) ->
 
 class InvaderGroup extends GameObject
     constructor: (ctx, canvas, cols, rows, topLeftX, topLeftY, @BULLET_FREQ) ->
-        @_size = cols*rows
+        @_size = cols * rows
         @rowSize = cols
         @data = []
         @offset = 8
@@ -12,14 +12,14 @@ class InvaderGroup extends GameObject
             x = topLeftX + (i % @rowSize) * (INVADER_WIDTH + @offset)
             y = topLeftY + Math.floor(i / @rowSize) * (INVADER_HEIGHT + @offset)
             invaderType = switch
-                when i < 2*@rowSize then "squid"
-                when i < 4*@rowSize then "crab"
+                when i < 2 * @rowSize then "squid"
+                when i < 4 * @rowSize then "crab"
                 else "jelly"
             @data[i] = new Invader(ctx, canvas, x, y, invaderType)
-            @data[i].shift((INVADER_WIDTH - @data[i].width)/2, 0)
+            @data[i].shift((INVADER_WIDTH - @data[i].width) / 2, 0)
 
-        maxX = @data[@_size-1].topLeftX + INVADER_WIDTH
-        maxY = @data[@_size-1].topLeftY + INVADER_HEIGHT
+        maxX = @data[@_size - 1].topLeftX + INVADER_WIDTH
+        maxY = @data[@_size - 1].topLeftY + INVADER_HEIGHT
         super(ctx, canvas, null, topLeftX, topLeftY, maxX - topLeftX, maxY - topLeftY)
         @originalTopLeftX = topLeftX
         @originalTopLeftY = topLeftY
@@ -41,7 +41,7 @@ class InvaderGroup extends GameObject
         for invader in @data
             invader?.draw()
 
-    shift: (dx, dy)->
+    shift: (dx, dy) ->
         super(dx, dy)
         @originalTopLeftX += dx
         @originalTopLeftY += dy
@@ -65,27 +65,27 @@ class InvaderGroup extends GameObject
         sounds[@soundIndex].play()
         @soundIndex = (@soundIndex + 1) % sounds.length
 
-    setVelocity: (vx, vy)->
+    setVelocity: (vx, vy) ->
         for invader in @data
             invader?.setVelocity(vx, vy)
         super(vx, vy)
 
-    invaderAtCoords: (x, y)->
-        xIndex = Math.floor((x-@originalTopLeftX)/(INVADER_WIDTH + @offset))
+    invaderAtCoords: (x, y) ->
+        xIndex = Math.floor((x - @originalTopLeftX) / (INVADER_WIDTH + @offset))
         return undefined if xIndex >= @rowSize
-        yIndex = Math.floor((y - @originalTopLeftY)/(INVADER_HEIGHT + @offset))
+        yIndex = Math.floor((y - @originalTopLeftY) / (INVADER_HEIGHT + @offset))
         return @data[xIndex + yIndex * @rowSize]
 
-    removeInvaderAtCoords: (x, y)->
-        xIndex = Math.floor((x-@originalTopLeftX)/(INVADER_WIDTH + @offset))
-        yIndex = Math.floor((y - @originalTopLeftY)/(INVADER_HEIGHT + @offset))
+    removeInvaderAtCoords: (x, y) ->
+        xIndex = Math.floor((x - @originalTopLeftX) / (INVADER_WIDTH + @offset))
+        yIndex = Math.floor((y - @originalTopLeftY) / (INVADER_HEIGHT + @offset))
         if @data[xIndex + yIndex * @rowSize]?
             @data[xIndex + yIndex * @rowSize].clear() # clear removed invader off the screen
             delete @data[xIndex + yIndex * @rowSize]
             @_size--
             @updateWidthHeight()
 
-    intersects: (other)->
+    intersects: (other) ->
         if not (other? and super other)
             return false
         @invaderAtCoords(other.topLeftX, other.topLeftY)?.intersects(other) or
@@ -93,17 +93,17 @@ class InvaderGroup extends GameObject
         @invaderAtCoords(other.topLeftX + other.width, other.topLeftY)?.intersects(other) or
         @invaderAtCoords(other.topLeftX + other.width, other.topLeftY + other.height)?.intersects(other)
 
-    updateExploded: (num)->
+    updateExploded: (num) ->
         for invader in @data
             if invader?.exploded
                 if invader.ticks_since_explode > num
-                    @removeInvaderAtCoords(invader.topLeftX, invader.topLeftY) 
+                    @removeInvaderAtCoords(invader.topLeftX, invader.topLeftY)
                 else
                     invader.ticks_since_explode++
 
     getBullets: ->
         freq = @BULLET_FREQ or 0.1
-        _.map @data, (invader)->
+        _.map @data, (invader) ->
             if Math.random() < freq then invader?.getBullet() else undefined
 
     size: ->
