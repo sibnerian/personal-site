@@ -5,8 +5,8 @@ Template.backButton.helpers
     showBackButton: ->
         Session.get "showBackButton"
 
-Template.backButton.rendered = ->
-    $(".backButton").click ->
+Template.backButton.events
+    'click': ->
         document.location.reload()
 
 $(document).ready ->
