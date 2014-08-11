@@ -21,14 +21,16 @@ class Game
         self = @
         @keydown (e) ->
             switch e.which
-                when 32
+                when 32 # spacebar
                     e.preventDefault()
                     self.player.willFire = true
-                when 37
+                when 37 # left arrow
                     self.player.setVelocity(-10, 0)
-                when 39
+                when 39 # right arrow
                     self.player.setVelocity(10, 0)
-                when 80 # 'p'
+                when 77 # 'm' for mute
+                    $('.soundIcon').trigger('click')
+                when 80 # 'p' for pause
                     if self.paused then self.resume() else self.pause()
                 when 13 # ENTER
                     self.reset() if not self.started
