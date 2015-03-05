@@ -7,6 +7,6 @@ standard-app-packages
 coffeescript
 jquery
 less
-buzz.js
 underscore
 spiderable
+brentjanderson:buzz
