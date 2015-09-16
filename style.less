@@ -1,12 +1,12 @@
 @link-color: #0C0091;
 @canvas-width: 900px;
 @canvas-height: 500px;
+
 html {
   height: 100%;
   overflow: hidden;
 }
 body {
-  background-color: #282831;
   height:100%;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
@@ -21,8 +21,43 @@ a:hover {
   text-decoration: underline;
 }
 
+.name {
+  width: 100%;
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 30px;
+
+}
+
+.blurb {
+  width: 80%;
+  margin: auto;
+  font-size: 2rem;
+}
+
+.links ul {
+  font-size: 2rem;
+}
+
+/* Small screens */
+@media (max-width: 1024px) {
+  .links {
+    width: 80%;
+    margin: auto;
+  }
+
+  li.invader {
+    display: none;
+  }
+}
+
 /* Big screens */
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
+
+  body {
+    background-color: #282831;
+  }
+
   .bizcard{
     position: relative;
     top: 10%;
@@ -33,19 +68,6 @@ a:hover {
     padding: 20px 10px 0px;
   }
 
-  .name {
-    width: 100%;
-    text-align: center;
-    font-size: 3rem;
-    margin-bottom: 30px;
-
-  }
-
-  .blurb {
-    width: 80%;
-    margin: auto;
-    font-size: 2rem;
-  }
 
   .links {
     width: 95%;
@@ -57,7 +79,6 @@ a:hover {
     display: table;
     table-layout: fixed;
     overflow: hidden;
-    font-size: 2rem;
     padding: 0;
     margin-top: 40px;
   }
@@ -97,7 +118,7 @@ a:hover {
     top: 2px;
     left:2px;
     cursor: pointer;
-    color: lighten(@link-color, 20%);
+    color: white;
   }
 
   .soundIcon {
