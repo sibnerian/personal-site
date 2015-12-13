@@ -8,7 +8,8 @@ class Game
         @reset()
 
     clearCanvas: ->
-        @ctx.clearRect(0, 0, @canvas.width, @canvas.height)
+        @ctx.fillStyle = '#000000';
+        @ctx.fillRect(0, 0, @canvas.width, @canvas.height)
 
     reset: ->
         @clearCanvas()
@@ -61,10 +62,7 @@ class Game
     tick: ->
         return if @paused
         @drawHud()
-        @invaders.clear()
-        @bullets.clear()
-        @player.clear()
-        @player_bullets.clear()
+        @clearCanvas()
         if @ticks % 30 is 0
             @invaders.move()
             @bullets.addAll @invaders.getBullets()

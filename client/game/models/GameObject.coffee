@@ -24,7 +24,7 @@ class GameObject
         @image.draw(@ctx, @topLeftX, @topLeftY, @width, @height)
 
     clear: ->
-        @ctx.clearRect(@topLeftX, @topLeftY, @width, @height)
+        @ctx.clearRect(@topLeftX - 2, @topLeftY - 2, @width + 4, @height + 4)
 
     boundingBox: ->
         return new BoundingBox(@topLeftX, @topLeftY, @width, @height)
