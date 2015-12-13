@@ -61,8 +61,8 @@ class Game
 
     tick: ->
         return if @paused
-        @drawHud()
         @clearCanvas()
+        @drawHud()
         if @ticks % 30 is 0
             @invaders.move()
             @bullets.addAll @invaders.getBullets()
