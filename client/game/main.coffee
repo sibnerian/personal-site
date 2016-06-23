@@ -8,7 +8,7 @@ class Game
         @reset()
 
     clearCanvas: ->
-        @ctx.fillStyle = '#000000';
+        @ctx.fillStyle = '#000000'
         @ctx.fillRect(0, 0, @canvas.width, @canvas.height)
 
     reset: ->
