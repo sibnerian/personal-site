@@ -10,4 +10,5 @@ less
 underscore
 spiderable
 brentjanderson:buzz
-standard-minifiers
+standard-minifier-css
+standard-minifier-js
