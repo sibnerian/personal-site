@@ -76,15 +76,6 @@ class InvaderGroup extends GameObject
         yIndex = Math.floor((y - @originalTopLeftY) / (INVADER_HEIGHT + @offset))
         return @data[xIndex + yIndex * @rowSize]
 
-    removeInvaderAtCoords: (x, y) ->
-        xIndex = Math.floor((x - @originalTopLeftX) / (INVADER_WIDTH + @offset))
-        yIndex = Math.floor((y - @originalTopLeftY) / (INVADER_HEIGHT + @offset))
-        if @data[xIndex + yIndex * @rowSize]?
-            @data[xIndex + yIndex * @rowSize].clear() # clear removed invader off the screen
-            delete @data[xIndex + yIndex * @rowSize]
-            @_size--
-            @updateWidthHeight()
-
     intersects: (other) ->
         if not (other? and super other)
             return false
@@ -94,10 +85,13 @@ class InvaderGroup extends GameObject
         @invaderAtCoords(other.topLeftX + other.width, other.topLeftY + other.height)?.intersects(other)
 
     updateExploded: (num) ->
-        for invader in @data
+        for invader, idx in @data
             if invader?.exploded
                 if invader.ticks_since_explode > num
-                    @removeInvaderAtCoords(invader.topLeftX, invader.topLeftY)
+                    invader.clear()
+                    delete @data[idx]
+                    @_size--
+                    updateWidthHeight()
                 else
                     invader.ticks_since_explode++
 

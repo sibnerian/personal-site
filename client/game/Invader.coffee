@@ -15,7 +15,7 @@ SPRITE_JELLY_1 = new CroppedImage(spritesheet, 15, 241, jellyPixelWidth, 65)
 SPRITE_JELLY_2 = new CroppedImage(spritesheet, 129, 241, jellyPixelWidth, 65)
 
 
-EXPLODE_SPRITE = new CroppedImage(spritesheet, 243, 0, 65, 65)
+EXPLODE_SPRITE = new CroppedImage(spritesheet, 243, 0, 106, 68)
 BULLET_SPRITE = new CroppedImage(spritesheet, 7, 460, 22, 35)
 
 class Invader extends Ship
@@ -42,6 +42,8 @@ class Invader extends Ship
     explode: ->
         super()
         @image = EXPLODE_SPRITE
+        @shift((@width - INVADER_WIDTH) / 2, 0)
+        @width = INVADER_WIDTH
     swapSprite: ->
         @image = if @image is @image1 then @image2 else @image1
     move: ->
