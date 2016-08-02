@@ -1,0 +1,3 @@
+[submodule "public/sibgif"]
+	path = public/sibgif
+	url = git@github.com:sibnerian/sibgif.git
